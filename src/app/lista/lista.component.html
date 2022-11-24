@@ -1,0 +1,153 @@
+<!--Area Search-->
+<ngx-spinner></ngx-spinner>
+<div class="container">
+    <h1>Lista Personaggi</h1>
+    <div class="search-hero">
+        <table style="width:10%">
+            <tr>
+                <th>Search Name</th>
+                <th>Search Gender</th>
+                <th>search Culture</th>
+                <th>Number Male</th>
+                <th>Number Female</th>
+                <th>Different Culture</th>
+            </tr>
+            <tr>
+                <th><input type="text" name="name" id="campo-input" [(ngModel)]="searchName"
+                        placeholder="Cerca un Nome"></th>
+                <th><select [(ngModel)]="searchGender" name="searchGender" id="searchGender">
+                        <option value=""></option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select></th>
+                <th> <select name="searchCulture" id="searchCulture" [(ngModel)]="searchCulture">
+                        <option value=""></option>
+                        <option value="Valyrian">Valyrian</option>
+                        <option value="Ironborn">Ironborn</option>
+                        <option value="Stormlands">Stormlands</option>
+                        <option value="Northmen">Northmen</option>
+                        <option value="Andal">Andal</option>
+                        <option value="Valemen">Valemen</option>
+                        <option value="Dornish">Dornish</option>
+                    </select></th>
+                    <th *ngFor="let i of arrayM">{{i}}</th>
+                    <th *ngFor="let i of arrayF">{{i}}</th>
+                    <th *ngFor="let i of arrayCulture">{{i}}</th>
+            </tr>
+        </table>
+        <button class="btn-primary btn-sm mt-3" type="button" (click)="doGenderNameSearch()">Cerca</button>
+    </div>
+    <br> 
+
+    <!--Table principale personaggi-->
+    <table class="table table-bordered container">
+        
+        <thead>
+            <tr>
+                <th scope="col" class="text-black">Name</th>
+                <th scope="col" class="text-black">Gender</th>
+                <th scope="col" class="text-black">Culture</th>
+                <th scope="col" class="text-black"></th>
+            </tr>
+        </thead>
+        <tbody
+            *ngFor="let post of POST  |paginate:{itemsPerPage:listSize,currentPage:page,totalItems:count};let i =index">
+            <tr *ngIf="post.name!=''">
+                <td class="text-black">{{post.name}}</td>
+                <td class="text-black">{{post.gender}}</td>
+                <td class="text-black">{{post.culture}}</td>
+                <td class="text-black"><button class="btn btn-dark" style="float:right"
+                        (click)="showDetail($event,post,mymodal)">Detail</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <!--End table-->
+
+    <!--Start modale -->
+    <ng-template #mymodal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title text-black" id="modal-basic-title">Lista Dettagli</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div *ngFor="let item of vettoreDetail " class="modal-body  text-black">
+            <ul>
+                <li>
+                    <h4>Name</h4>{{item.name}}
+                </li>
+                <li>
+                    <h4>Aliases</h4>{{item.aliases}}
+                </li>
+                <li>
+                    <h4>Born</h4>{{item.born}}
+                </li>
+                <li>
+                    <h4>Gender</h4>{{item.gender}}
+                </li>
+                <li>
+                    <h4>TV Series</h4>{{item.tvSeries}}
+                </li>
+                <li>
+                    <h4>Culture</h4>{{item.culture}}
+                </li>
+                <span *ngIf="item.culture==='Valyrian'">
+                    <img style="width:300px ;height:auto"
+                        src="https://images-platform.99static.com/OY7c_DU3raeQ8dWRs__EjszWFWU=/500x500/top/smart/99designs-contests-attachments/37/37601/attachment_37601022"
+                        alt="">
+                </span>
+                <span *ngIf="item.culture==='Ironborn'">
+                    <img style="width:300px ;height:auto"
+                        src="https://i.pinimg.com/originals/93/cd/f7/93cdf74b440fb165e5725ee0b530c9f7.jpg" alt="">
+                </span>
+                <span *ngIf="item.culture==='Stormlands'">
+                    <img style="width:300px ;height:auto"
+                        src="https://www.pngfind.com/pngs/m/677-6779526_the-stags-of-the-stormlands-game-of-thrones.png"
+                        alt="">
+                </span>
+                <span *ngIf="item.culture==='Northmen'">
+                    <img style="width:300px ;height:auto"
+                        src="https://cdn.dribbble.com/users/235144/screenshots/1443427/media/5d0274d0211f800ec696daaf43c4238b.jpg?compress=1&resize=400x300"
+                        alt="">
+                </span>
+                <span *ngIf="item.culture==='Andal'">
+                    <img style="width:300px ;height:auto"
+                        src="https://m.media-amazon.com/images/I/51uzrlA0s8L._AC_SX450_.jpg" alt="">
+                </span>
+                <span *ngIf="item.culture==='Valemen'">
+                    <img style="width:300px ;height:auto"
+                        src="https://i.pinimg.com/originals/fc/e4/d2/fce4d27e3c135f02e6c0183aa10c03f2.jpg" alt="">
+                </span>
+                <span *ngIf="item.culture==='Dornish'">
+                    <img style="width:300px ;height:auto"
+                        src="https://librisognierealta.it/wp-content/uploads/2019/05/casa-fowler-got.png" alt="">
+                </span>
+                <span *ngIf="item.culture===''">
+                    <img style="width:300px ;height:auto"
+                        src="https://www.associazionejam.it/wp-content/uploads/2017/04/non-disponibile-300x300.png"
+                        alt="">
+                </span>
+            </ul>
+            <hr>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cross click')">Ok</button>
+        </div>
+    </ng-template>
+    <!--End modale -->
+
+    <!--Pagination Start-->
+    <div class="container text-center">
+        <select (change)="changeSizeList($event)">
+            <option *ngFor="let size of listSizes">
+                {{size}}
+            </option>
+        </select>
+    </div>
+    <div class="container text-center">
+        <pagination-controls previousLabel="prev" nextLabel="next" (pageChange)="changeList($event)">
+        </pagination-controls>
+    </div>
+    <!--Pagination End-->
+
+</div>
